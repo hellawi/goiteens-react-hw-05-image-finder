@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Alert, AlertTitle } from '@mui/material'
+import { Alert, AlertTitle, Button } from '@mui/material'
 
 import SearchBar from './components/SearchBar/SearchBar'
 import ImageGallery from './components/ImageGallery/ImageGallery'
@@ -12,14 +12,31 @@ function App() {
   const [images, setImages] = useState([])
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
+  const [pagesCount, setPagesCount] = useState(1)
 
   useEffect(() => {
+    if (query === ''){
+      return;
+    }
       setLoading(true)
-      searchImages(query, 1).then((data) => {
-        setImages(data.hits)
+      searchImages(query, page)
+      .then((data) => {
+        setImages((prevImages) => [...prevImages, ...data.hits])
+        setPagesCount(data.nbPages)
       })
+
       .finally(() => setLoading(false))
-  }, [query])
+  }, [query, page])
+
+  function loadMore(){
+    setPage((prevPage) => prevPage + 1)
+  }
+  function search(newQuery){
+    setQuery(newQuery)
+    setPage(1)
+    setImages([])
+  }
 
   return (
     <div>
@@ -35,10 +52,11 @@ function App() {
         <SearchBar onSearch={setQuery} />
       </header>
       <ImageGallery images={images} />
-      {query !== query ? <ImageGallery images={images} /> : <Alert severity="error">
+      {images.length !== 0 ? <ImageGallery images={images} /> : <Alert severity="error">
                                                               <AlertTitle>Error</AlertTitle>
-                                                              Pictures for request <strong>{query}</strong> is not found!
+                                                              No available pictures!
                                                             </Alert> }
+      {images.length !== 0 && <Button onClick={loadMore}>load more</Button>}
     </div>
   )
 }

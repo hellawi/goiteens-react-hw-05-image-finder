@@ -17,7 +17,7 @@ function Modal({ onClose, url }) {
   }
 
   function keyDown(event){
-    if(event.code === "Esc"){
+    if(event.code === "Escape"){
       onClose()
     }
   }

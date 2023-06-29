@@ -8,7 +8,8 @@ function Modal({ onClose, url }) {
       window.removeEventListener("keydown", keyDown)
     }
   }, [])
-  function overlayCLick(event){
+  
+  function overlayClick(event){
     console.log(event.target)
     console.log(event.currentTarget)
     if(event.target === event.currentTarget){
@@ -24,7 +25,7 @@ function Modal({ onClose, url }) {
 
   return (
     <div>
-        <div className={styles.Overlay} onClick={onClose}>
+        <div className={styles.Overlay} onClick={overlayClick}>
             <div className={styles.Modal}>
                   <img src={url} alt="" />
             </div>

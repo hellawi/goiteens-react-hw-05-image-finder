@@ -64,7 +64,6 @@ function App() {
           <Loader visible={loading}/>
         </div>
       </div> }
-      {/* {modalImage && <Modal largeImageURL={modalImage} onClose={closeModal}/> } */}
       <header className='SearchBar'>
         <div className="header-title-box">
           <h1 className='header-title'>Search of images...</h1>
